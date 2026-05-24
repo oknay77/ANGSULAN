@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#00c853">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kembalian Pintar">
+<title>Kembalian Pintar</title>
+
+<style>
+    * {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    margin: 0;
+    background: #fff;
+    color: #1d1d1f;
+  }
+ .header {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e5e5e5;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+  }
+ .header.title {
+    font-size: 18px;
+    font-weight: 700;
+  }
+ .header.badge {
+    background: #00c853;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-left: 6px;
+  }
+ .subtitle {
+    padding: 12px 16px;
+    color: #666;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #f9f9f9;
+  }
+ .container {
+    padding: 0 16px 40px;
+  }
+ .label {
+    font-size: 15px;
+    margin: 16px 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+ .input-box {
+    border: 2px solid #00c853;
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 18px;
+    width: 100%;
+    outline: none;
+  }
+ .input-box:focus {
+    border-color: #00a844;
+  }
+ .grid-btn {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+  }
+ .grid-btn button {
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+ .grid-btn button:active {
+    background: #f5f5f5;
+    transform: scale(0.98);
+  }
+ .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+  }
+ .btn-hitung {
+    background: #00c853;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+ .btn-reset {
+    background: white;
+    color: #1d1d1f;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+ .hasil {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    display: none;
+  }
+ .hasil.sukses {
+    background: #e8f5e9;
+    color: #2e7d32;
+    display: block;
+  }
+ .hasil.kurang {
+    background: #ffebee;
+    color: #c62828;
+    display: block;
+  }
+ .breakdown {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: left;
+  }
+ .breakdown div {
+    padding: 5px 0;
+    border-bottom: 1px dashed #ddd;
+  }
+</style>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    const swCode = `
+      const CACHE_NAME = 'kembalian-v1';
+      self.addEventListener('install', e => {
+        self.skipWaiting();
+      });
+      self.addEventListener('fetch', e => {
+        e.respondWith(fetch(e.request));
+      });
+    `;
+    const blob = new Blob([swCode], {type: 'text/javascript'});
+    const swURL = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(swURL);
+  });
+}
+</script>
+
+<script type="application/manifest+json">
+{
+  "name": "Kembalian Pintar",
+  "short_name": "Kembalian",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#00c853",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect fill='%2300c853' width='512' height='512' rx='100'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='200' fill='white'%3ERp%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<div class="header">
+  <div class="title">Kembalian Pintar <span class="badge">Rp</span></div>
+</div>
+
+<div class="subtitle">
+  <span>ℹ️</span> Total harga & uang pembeli
+</div>
+
+<div class="container">
+  <div class="label">🛒 Total harga (Rp)</div>
+  <input id="total" class="input-box" type="number" value="0" inputmode="numeric">
+
+  <div class="label">💵 Uang pembeli (Rp)</div>
+  <input id="bayar" class="input-box" type="number" value="0" inputmode="numeric">
+
+  <div class="grid-btn">
+    <button onclick="tambahUang(10000)">Rp10K</button>
+    <button onclick="tambahUang(20000)">Rp20K</button>
+    <button onclick="tambahUang(50000)">Rp50K</button>
+    <button onclick="tambahUang(100000)">Rp100K</button>
+  </div>
+
+  <div class="actions">
+    <button class="btn-hitung" onclick="hitung()">🔄 Hitung</button>
+    <button class="btn-reset" onclick="reset()">↻ Reset</button>
+  </div>
+
+  <div id="hasil" class="hasil"></div>
+</div>
+
+<script>
+function tambahUang(nilai) {
+  let bayarInput = document.getElementById('bayar');
+  let current = parseFloat(bayarInput.value) || 0;
+  bayarInput.value = current + nilai;
+  hitung();
+}
+
+function hitung() {
+  let total = parseFloat(document.getElementById('total').value) || 0;
+  let bayar = parseFloat(document.getElementById('bayar').value) || 0;
+  let hasilDiv = document.getElementById('hasil');
+
+  if(total === 0) {
+    hasilDiv.className = 'hasil kurang';
+    hasilDiv.innerText = 'Masukkan total harga dulu';
+    return;
+  }
+
+  let selisih = bayar - total;
+
+  if(selisih < 0) {
+    hasilDiv.className = 'hasil kurang';
+    hasilDiv.innerText = 'Kurang Rp ' + Math.abs(selisih).toLocaleString('id-ID');
+    return;
+  }
+
+  hasilDiv.className = 'hasil sukses';
+  hasilDiv.innerHTML = 'Kembalian: Rp ' + selisih.toLocaleString('id-ID');
+
+  if(selisih > 0) {
+    let breakdown = hitungPecahan(selisih);
+    hasilDiv.innerHTML += '<div class="breakdown">' + breakdown + '</div>';
+  }
+}
+
+function hitungPecahan(jumlah) {
+  const pecahan = [100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100];
+  let sisa = jumlah;
+  let hasil = '';
+
+  for(let uang of pecahan) {
+    let jumlahLembar = Math.floor(sisa / uang);
+    if(jumlahLembar > 0) {
+      hasil += `<div>${jumlahLembar} x Rp ${uang.toLocaleString('id-ID')}</div>`;
+      sisa = sisa % uang;
+    }
+  }
+  return hasil;
+}
+
+function reset() {
+  document.getElementById('total').value = '0';
+  document.getElementById('bayar').value = '0';
+  document.getElementById('hasil').className = 'hasil';
+  document.getElementById('hasil').innerText = '';
+}
+
+document.getElementById('bayar').addEventListener('input', hitung);
+document.getElementById('total').addEventListener('input', hitung);
+</script>
+
+</body>
+</html>
