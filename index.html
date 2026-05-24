@@ -284,6 +284,10 @@ function reset() {
 document.getElementById('bayar').addEventListener('input', hitung);
 document.getElementById('total').addEventListener('input', hitung);
 </script>
-
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js");
+}
+</script>
 </body>
 </html>
