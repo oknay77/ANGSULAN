@@ -1,0 +1,9 @@
+{
+  "name": "Kembalian Pintar",
+  "short_name": "Kembalian",
+  "description": "Aplikasi hitung kembalian otomatis",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#22c55e"
+}
